@@ -32,7 +32,7 @@ for(k in 1:k1){
   }
 }
 
-# xlab1 = "rho" # simulation1
+# xlab1 = "rate" # simulation1
 xlab1 = "alpha" # simulation2
 x11();plot(tce1,xlab = xlab1,ylab="Copula Entropy");lines(tce1)
 x11();plot(mardia1,xlab = xlab1,ylab="Mardia");lines(mardia1)
