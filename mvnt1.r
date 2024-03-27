@@ -4,9 +4,11 @@ library(copent)
 library(MVN)
 library(mvnTest)
 library(mnt)
+library(mvnormtest)
 
 tce1 = mardia1 = hz1 = royston1 = dh1 = energy1 = ad1 = cm1 = s2 = y2 = u2 = rep(0,10) 
 cs1 = bhep1 = deht1 = dehu1 = ehs1 = hjg1 = hv1 = hz1 = kkurt1 = makurt1 = maskew1 = mkurt1 = mq1 = mq2 = mrsskew1 = mskew1 = pu1 = sr1 = rep(0,10)
+mshapiro1 = rep(0,10)
 # hjm1 = rep(0,10)
 for(i in 1:10) {
   # simulation 1
@@ -48,6 +50,7 @@ for(i in 1:10) {
   mskew1[i] = MSkew(data1)
   pu1[i] = PU(data1)
   sr1[i] = SR(data1)
+  mshapiro1[i] = mshapiro.test(t(data1))$statistic
 }#i
 
 xlab1 = "rate" # simulation1
@@ -84,3 +87,5 @@ plot(mrsskew1,xlab = xlab1,ylab="statistic", main = "MRSSkew");lines(mrsskew1)
 plot(mskew1,xlab = xlab1,ylab="statistic", main = "MSkew");lines(mskew1)
 plot(pu1,xlab = xlab1,ylab="statistic", main = "PU");lines(pu1)
 plot(sr1,xlab = xlab1,ylab="statistic", main = "SR");lines(sr1)
+plot(mshapiro1,xlab = xlab1,ylab="statistic", main = "Shapiro-Wilk");lines(mshapiro1)
+
