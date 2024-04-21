@@ -6,15 +6,19 @@ library(mvnTest)
 library(mnt)
 library(mvnormtest)
 
-tce1 = mardia1 = hz1 = royston1 = dh1 = energy1 = ad1 = cm1 = s2 = y2 = u2 = rep(0,10) 
+tce1 = rep(0,10) #copent
+mardia1 = hz1 = royston1 = dh1 = energy1 = rep(0,10) #MVN
+ad1 = cm1 = s2 = y2 = u2 = rep(0,10) #mvnTest
+#mnt
 cs1 = bhep1 = deht1 = dehu1 = ehs1 = hjg1 = hv1 = hz1 = kkurt1 = makurt1 = maskew1 = mkurt1 = mq1 = mq2 = mrsskew1 = mskew1 = pu1 = sr1 = rep(0,10)
-mshapiro1 = rep(0,10)
 # hjm1 = rep(0,10)
+mshapiro1 = rep(0,10) #mvnormtest
+
 for(i in 1:10) {
   # simulation 1
-  mv.NE <- mvdc(normalCopula(0.8), c("norm", "exp"), list(list(mean = 0, sd = 2), list(rate = i)))
+  # mv.NE <- mvdc(normalCopula(0.8), c("norm", "exp"), list(list(mean = 0, sd = 2), list(rate = i)))
   # simulation 2
-  # mv.NE <- mvdc(gumbelCopula(i), c("norm", "norm"), list(list(mean = 0, sd =2), list(mean = 0, sd =2)))
+  mv.NE <- mvdc(gumbelCopula(i), c("norm", "norm"), list(list(mean = 0, sd =2), list(mean = 0, sd =2)))
   data1 <- rMvdc(800, mv.NE)
   
   tce1[i] = mvnt(data1)
@@ -54,8 +58,9 @@ for(i in 1:10) {
 }#i
 
 xlab1 = "rate" # simulation1
-# xlab1 = "alpha" # simulation2
-x11(width = 12, height = 12);
+xlab1 = "alpha" # simulation2
+x11(width = 8, height = 12);
+pdf(file = "~/Rworks/mvnt/sim2mvnt.pdf",width = 8, height = 12)
 par(mfrow = c(6,5))
 plot(tce1,xlab = xlab1,ylab="statistic", main = "Copula Entropy");lines(tce1)
 plot(mardia1,xlab = xlab1,ylab="statistic", main = "Mardia");lines(mardia1)
@@ -88,4 +93,5 @@ plot(mskew1,xlab = xlab1,ylab="statistic", main = "MSkew");lines(mskew1)
 plot(pu1,xlab = xlab1,ylab="statistic", main = "PU");lines(pu1)
 plot(sr1,xlab = xlab1,ylab="statistic", main = "SR");lines(sr1)
 plot(mshapiro1,xlab = xlab1,ylab="statistic", main = "Shapiro-Wilk");lines(mshapiro1)
+dev.off()
 
