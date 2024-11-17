@@ -1,5 +1,6 @@
-# mvnt with ce
+# Evaluation of mvnt with ce
 library(copula)
+library(mvtnorm)
 library(copent)
 library(MVN)
 library(mvnTest)
@@ -14,12 +15,20 @@ cs1 = bhep1 = deht1 = dehu1 = ehs1 = hjg1 = hv1 = hz1 = kkurt1 = makurt1 = maske
 # hjm1 = rep(0,10)
 mshapiro1 = rep(0,10) #mvnormtest
 
+# for simulation 3
+mu1 = c(0,0); sigma1 = matrix(c(1,0.5,0.5,1),2,2)
+mu2 = c(3,3); sigma2 = matrix(c(1,0.8,0.8,1),2,2)
+d1 = rmvnorm(800,mu1,sigma1)  
+d2 = rmvnorm(800,mu2,sigma2)
+
 for(i in 1:10) {
   # simulation 1
   # mv.NE <- mvdc(normalCopula(0.8), c("norm", "exp"), list(list(mean = 0, sd = 2), list(rate = i)))
   # simulation 2
   mv.NE <- mvdc(gumbelCopula(i), c("norm", "norm"), list(list(mean = 0, sd =2), list(mean = 0, sd =2)))
   data1 <- rMvdc(800, mv.NE)
+  # simulation 3
+  data1 = d1 * (i-1) / 9 + d2 * (10 -i) / 9
   
   tce1[i] = mvnt(data1)
   mardia1[i] = as.numeric(as.character(
@@ -57,10 +66,9 @@ for(i in 1:10) {
   mshapiro1[i] = mshapiro.test(t(data1))$statistic
 }#i
 
-xlab1 = "rate" # simulation1
-xlab1 = "alpha" # simulation2
+xlab1 = "rate" # simulation 1
+xlab1 = "alpha" # simulation 2,3
 x11(width = 8, height = 12);
-pdf(file = "~/Rworks/mvnt/sim2mvnt.pdf",width = 8, height = 12)
 par(mfrow = c(6,5))
 plot(tce1,xlab = xlab1,ylab="statistic", main = "Copula Entropy");lines(tce1)
 plot(mardia1,xlab = xlab1,ylab="statistic", main = "Mardia");lines(mardia1)
@@ -93,5 +101,3 @@ plot(mskew1,xlab = xlab1,ylab="statistic", main = "MSkew");lines(mskew1)
 plot(pu1,xlab = xlab1,ylab="statistic", main = "PU");lines(pu1)
 plot(sr1,xlab = xlab1,ylab="statistic", main = "SR");lines(sr1)
 plot(mshapiro1,xlab = xlab1,ylab="statistic", main = "Shapiro-Wilk");lines(mshapiro1)
-dev.off()
-
