@@ -24,7 +24,7 @@ d2 = rmvnorm(800,mu2,sigma2)
 
 for(i in 1:10) {
   # simulation 1
-  # mv.NE <- mvdc(normalCopula(0.8), c("norm", "exp"), list(list(mean = 0, sd = 2), list(rate = i)))
+  mv.NE <- mvdc(normalCopula(0.8), c("norm", "exp"), list(list(mean = 0, sd = 2), list(rate = i)))
   data1 <- rMvdc(800, mv.NE)
   # simulation 2
   ## mv.NE <- mvdc(gumbelCopula(i), c("norm", "norm"), list(list(mean = 0, sd =2), list(mean = 0, sd =2)))
