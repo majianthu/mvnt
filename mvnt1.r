@@ -6,6 +6,7 @@ library(MVN)
 library(mvnTest)
 library(mnt)
 library(mvnormtest)
+library(latex2exp)
 
 tce1 = rep(0,10) #copent
 mardia1 = hz1 = royston1 = dh1 = energy1 = rep(0,10) #MVN
@@ -24,9 +25,11 @@ d2 = rmvnorm(800,mu2,sigma2)
 for(i in 1:10) {
   # simulation 1
   # mv.NE <- mvdc(normalCopula(0.8), c("norm", "exp"), list(list(mean = 0, sd = 2), list(rate = i)))
-  # simulation 2
-  mv.NE <- mvdc(gumbelCopula(i), c("norm", "norm"), list(list(mean = 0, sd =2), list(mean = 0, sd =2)))
   data1 <- rMvdc(800, mv.NE)
+  # simulation 2
+  ## mv.NE <- mvdc(gumbelCopula(i), c("norm", "norm"), list(list(mean = 0, sd =2), list(mean = 0, sd =2)))
+  ## data1 <- rMvdc(800, mv.NE)
+  data1 <- rmvt(800,sigma = matrix(c(1,0.5,0.5,1),2,2),df = i)
   # simulation 3
   data1 = d1 * (i-1) / 9 + d2 * (10 -i) / 9
   
@@ -62,12 +65,13 @@ for(i in 1:10) {
   mrsskew1[i] = MRSSkew(data1)
   mskew1[i] = MSkew(data1)
   pu1[i] = PU(data1)
-  sr1[i] = SR(data1)
+  sr1[i] = SR(data1) # comment this line in simulation 2
   mshapiro1[i] = mshapiro.test(t(data1))$statistic
 }#i
 
-xlab1 = "rate" # simulation 1
-xlab1 = "alpha" # simulation 2,3
+# xlab1 = TeX(r'($\lambda$)') # simulation 1
+xlab1 = TeX(r'($\nu$)') # simulation 2
+# xlab1 = TeX(r'($\beta$)') # simulation 3
 x11(width = 8, height = 12);
 par(mfrow = c(6,5))
 plot(tce1,xlab = xlab1,ylab="statistic", main = "Copula Entropy");lines(tce1)
